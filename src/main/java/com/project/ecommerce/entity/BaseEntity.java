@@ -24,19 +24,19 @@ public class BaseEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = -74643736473437L;
 
-    @Column(name = "createddate")
+    @Column(name = "created_date")
     @CreatedDate
     LocalDateTime createdDate;
 
-    @Column(name = "createdby")
+    @Column(name = "created_by")
     @CreatedBy
     String createdBy;
 
-    @Column(name = "modifieddate")
+    @Column(name = "modified_date")
     @LastModifiedDate
     LocalDateTime modifiedDate;
 
-    @Column(name = "modifiedBy")
+    @Column(name = "modified_By")
     @LastModifiedBy
     String modifiedBy;
 

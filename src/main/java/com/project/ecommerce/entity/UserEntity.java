@@ -38,13 +38,20 @@ public class UserEntity extends BaseEntity implements Serializable {
     @Column(name = "phone")
     String phone;
 
+    @Column(name = "address")
+    String address;
+
     @Column(name = "avatar")
     String avatar;
 
     @Column(name = "status")
-    Boolean status = true;
+    Boolean status;
 
     @ManyToOne
-    @JoinColumn(name = "roleid", nullable = false)
+    @JoinColumn(name = "role_id", nullable = false)
     private RoleEntity role;
+
+    @OneToOne(mappedBy = "user")
+    private CartEntity cart;
+
 }
