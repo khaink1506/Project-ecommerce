@@ -40,4 +40,10 @@ public class BaseEntity implements Serializable {
     @LastModifiedBy
     String modifiedBy;
 
+    @PrePersist
+    protected void onCreate() {
+        modifiedDate = null;
+        modifiedBy = null;
+    }
+
 }

@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -36,12 +37,30 @@ public class CategoryServiceImpl implements CategoryService {
         if(categoryRepository.existsByName(categoryRequestDTO.getName())){
             throw new InvalidRequestException("Tên danh mục đã tồn tại");
         }
-        CategoryEntity categoryEntity = new CategoryEntity();
-        categoryEntity.setName(categoryRequestDTO.getName());
-        categoryEntity.setStatus(true);
+        CategoryEntity categoryEntity = CategoryEntity.builder()
+                .name(categoryRequestDTO.getName())
+                .status(true)
+                .build();
+
         categoryRepository.save(categoryEntity);
         return ResponseDTO.builder()
                 .message("Thêm danh mục thành công")
+                .build();
+    }
+
+    @Override
+    public ResponseDTO updateCategory(CategoryRequestDTO categoryRequestDTO) {
+        if(categoryRequestDTO.getId() == null){
+            throw new InvalidRequestException("Phải có id để cập nhật danh mục");
+        }
+        CategoryEntity categoryEntity = categoryRepository.findById(categoryRequestDTO.getId())
+                .orElseThrow(() -> new InvalidRequestException("Id không tồn tại"));
+        categoryEntity.setName(categoryRequestDTO.getName());
+        categoryEntity.setStatus(true);
+        categoryEntity.setModifiedDate(LocalDateTime.now());
+        categoryRepository.save(categoryEntity);
+        return ResponseDTO.builder()
+                .message("Cập nhật danh mục thành công")
                 .build();
     }
 }

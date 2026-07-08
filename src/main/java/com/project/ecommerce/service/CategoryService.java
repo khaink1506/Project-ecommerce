@@ -10,4 +10,6 @@ public interface CategoryService {
     List<CategoryResponseDTO> getAll();
 
     ResponseDTO createCategory(CategoryRequestDTO categoryRequestDTO);
+
+    ResponseDTO updateCategory(CategoryRequestDTO categoryRequestDTO);
 }
