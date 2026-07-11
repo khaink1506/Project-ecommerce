@@ -15,21 +15,16 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "role")
-public class RoleEntity extends BaseEntity implements Serializable {
+@Table(name = "roles")
+public class RoleEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = -84243949359L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    @Column(name = "name", nullable = false )
-    String name;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "code", unique = true, nullable = false)
-    String code;
-
-    @OneToMany(mappedBy = "role")
-    private List<UserEntity> users = new ArrayList<>();
 }

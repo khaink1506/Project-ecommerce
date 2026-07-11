@@ -15,53 +15,41 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "product")
-public class ProductEntity extends BaseEntity implements Serializable {
+@Table(name = "products", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
+public class ProductEntity  implements Serializable {
     @Serial
     private static final long serialVersionUID = -81246246424L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    @Column(name = "name", nullable = false)
-    String name;
+    @Column(name = "name", unique = true)
+    private String name;
 
-    @Column(name = "sku", nullable = false, unique = true)
-    String sku;
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
-    @Column(name = "price", nullable = false)
-    Double price;
+    @Column(name = "cost_price")
+    private double costPrice;
 
-    @Column(name = "quantity", nullable = false)
-    Integer quantity;
+    @Column(name = "sale_price")
+    private double salePrice;
 
-    @Column(name = "sold_quantity")
-    Integer soldQuantity = 0;
+    @Column(name = "current_quantity")
+    private int currentQuantity;
 
-    @Column(name = "thumbnail")
-    String thumbnail;
-
-    @Column(name = "description", columnDefinition = "TEXT")
-    String description;
-
-    @Column(name = "status", nullable = false)
-    Boolean status = Boolean.TRUE;
+    @Lob
+    @Column(columnDefinition = "MEDIUMBLOB")
+    private String image;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
-    CategoryEntity category;
+    @JoinColumn(name = "category_id")
+    private CategoryEntity category;
 
-    @ManyToOne
-    @JoinColumn(name = "brand_id", nullable = false)
-    BrandEntity brand;
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
 
-    @OneToMany(mappedBy = "product")
-    private List<ProductImageEntity> productImages = new ArrayList<>();
-
-    @OneToMany(mappedBy = "product")
-    private List<CartItemEntity> cartItems = new ArrayList<>();
-
-    @OneToMany(mappedBy = "product")
-    private List<OrderDetailsEntity> orderDetails = new ArrayList<>();
+    @Column(name = "is_activated")
+    private boolean isActivated;
 }

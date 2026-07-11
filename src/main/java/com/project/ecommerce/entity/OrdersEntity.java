@@ -6,8 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -17,41 +16,44 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "oders")
-public class OrdersEntity extends BaseEntity implements Serializable {
+public class OrdersEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = -8434638338L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_id")
+    private Long id;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "order_date")
+    private Date orderDate;
+
+    @Column(name = "payment_status")
+    private String paymentStatus;
+
+    @Column(name = "payment_type")
+    private String paymentType;
+
+    @Column(name = "transition_id")
+    private String transitionId;
+
+    @Column(name = "total_price")
+    private double totalPrice;
+
+    @Column(name = "discount_price")
+    private double discountPrice;
+
+    @Column(name = "order_status")
+    private String orderStatus;
+
+    @Column(columnDefinition = "TEXT")
+    private String notes;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
-
-    @Column(name = "receiver_name", nullable = false)
-    String receiverName;
-
-    @Column(name = "receiver_phone", nullable = false)
-    String receiverPhone;
-
-    @Column(name = "receiver_address", nullable = false)
-    String receiverAddress;
-
-    @Column(name = "note", columnDefinition = "TEXT")
-    String note;
-
-    @Column(name = "payment_method", nullable = false)
-    String paymentMethod;
-
-    @Column(name = "order_date", nullable = false)
-    LocalDateTime orderDate;
-
-    @Column(name = "total_price", nullable = false)
-    Double totalPrice;
-
-    @Column(name = "status", nullable = false)
-    String status;
+    @JoinColumn(name = "customer_id")
+    private CustomerEntity customer;
 
     @OneToMany(mappedBy = "order")
-    private List<OrderDetailsEntity> orderDetails = new ArrayList<>();
+    private List<OrderDetailEntity> orderDetails;
 }

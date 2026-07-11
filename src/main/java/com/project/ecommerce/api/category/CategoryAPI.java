@@ -1,5 +1,6 @@
 package com.project.ecommerce.api.category;
 
+import com.project.ecommerce.exception.InvalidRequestException;
 import com.project.ecommerce.model.dto.ResponseDTO;
 import com.project.ecommerce.model.request.CategoryRequestDTO;
 import com.project.ecommerce.service.CategoryService;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/categories")
+@RequestMapping("/api/category")
 @RequiredArgsConstructor
 public class CategoryAPI {
 
@@ -39,13 +40,22 @@ public class CategoryAPI {
         if(bindingResult.hasErrors()){
             ResponseDTO responseDTO = new ResponseDTO();
             responseDTO.setMessage("Dữ liệu không hợp");
-            List<String> details = bindingResult.getFieldErrors().stream()
+            List<String> details =  bindingResult.getFieldErrors().stream()
                     .map(error -> error.getField() + ": " + error.getDefaultMessage())
                     .toList();
             responseDTO.setDetails(details);
             return ResponseEntity.badRequest().body(responseDTO);
         }
         return ResponseEntity.ok().body(categoryService.updateCategory(categoryRequestDTO));
+    }
 
+    @DeleteMapping("/{ids}")
+    public ResponseEntity<ResponseDTO> deleteCategory(@PathVariable List<Long> ids){
+        return ResponseEntity.ok().body(categoryService.deleteCategory(ids));
+    }
+
+    @DeleteMapping("/soft/{ids}")
+    public ResponseEntity<ResponseDTO> softDeleteCategory(@PathVariable List<Long> ids){
+        return ResponseEntity.ok().body(categoryService.softDeleteCategory(ids));
     }
 }

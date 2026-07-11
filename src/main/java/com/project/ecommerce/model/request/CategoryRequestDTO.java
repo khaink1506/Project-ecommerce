@@ -13,4 +13,7 @@ public class CategoryRequestDTO {
     Long id;
     @NotBlank(message = "Tên danh mục không được bỏ trống")
     String name;
+
+    @NotBlank(message = "Mô tả không được để trống")
+    String description;
 }

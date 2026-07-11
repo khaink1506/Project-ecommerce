@@ -14,31 +14,27 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(
-        name = "cart_items",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"cart_id", "product_id"})
-        }
-)
-public class CartItemEntity extends BaseEntity implements Serializable {
+@Table(name = "cart_item")
+
+public class CartItemEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = -8325734587L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
+
+    private int quantity;
+
+    @Column(name = "total_price")
+    private double totalPrice;
 
     @ManyToOne
-    @JoinColumn(name = "cart_id", nullable = false)
-    private CartEntity cart;
+    @JoinColumn(name = "shopping_cart_id", unique = true)
+    private ShoppingCartEntity cart;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "product_id")
     private ProductEntity product;
-
-    @Column(name = "quantity", nullable = false)
-    private Integer quantity;
-
-    @Column(name = "price", nullable = false)
-    private Double price;
 }
+

@@ -12,4 +12,9 @@ public interface CategoryService {
     ResponseDTO createCategory(CategoryRequestDTO categoryRequestDTO);
 
     ResponseDTO updateCategory(CategoryRequestDTO categoryRequestDTO);
+
+    ResponseDTO deleteCategory(List<Long> ids);
+
+    ResponseDTO softDeleteCategory(List<Long> ids);
+
 }
