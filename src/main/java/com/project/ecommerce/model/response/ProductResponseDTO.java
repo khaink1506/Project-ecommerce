@@ -16,8 +16,6 @@ public class ProductResponseDTO {
     Double salePrice;
     Integer currentQuantity;
     String image;
-    Long categoryId;
     String categoryName;
-    boolean isDeleted;
     boolean isActivated;
 }

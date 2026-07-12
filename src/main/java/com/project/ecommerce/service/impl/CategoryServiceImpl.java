@@ -8,6 +8,7 @@ import com.project.ecommerce.model.response.ResponseDTO;
 import com.project.ecommerce.model.request.CategoryRequestDTO;
 import com.project.ecommerce.repository.CategoryRepository;
 import com.project.ecommerce.service.CategoryService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .toList();
     }
     @Override
+    @Transactional
     public ResponseDTO createCategory(CategoryRequestDTO categoryRequestDTO) {
         if (categoryRepository.existsByName(categoryRequestDTO.getName().trim())) {
             throw new InvalidRequestException("Danh mục đã tồn tại");
@@ -45,6 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .build();
     }
     @Override
+    @Transactional
     public ResponseDTO updateCategory(CategoryRequestDTO categoryRequestDTO) {
         if (categoryRequestDTO.getId() == null) {
             throw new InvalidRequestException("Có ID mới cập nhật danh mục");
@@ -62,6 +65,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .build();
     }
     @Override
+    @Transactional
     public ResponseDTO deleteCategory(List<Long> ids) {
         if(ids == null || ids.isEmpty()){
             throw new InvalidRequestException("ID không tồn tại");
@@ -77,6 +81,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .build();
     }
     @Override
+    @Transactional
     public ResponseDTO softDeleteCategory(List<Long> ids) {
         if(ids == null || ids.isEmpty()){
             throw new InvalidRequestException("ID không tồn tại");

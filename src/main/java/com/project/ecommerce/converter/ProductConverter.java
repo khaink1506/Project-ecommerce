@@ -18,9 +18,11 @@ public class ProductConverter {
 
     public ProductResponseDTO toProductResponseDTO(ProductEntity productEntity){
         ProductResponseDTO productResponseDTO = modelMapper.map(productEntity, ProductResponseDTO.class);
-        productResponseDTO.setCategoryId(productEntity.getCategory().getId());
         productResponseDTO.setCategoryName(productEntity.getCategory().getName());
-
         return productResponseDTO;
+    }
+
+    public void updateProductEntity(ProductRequestDTO productRequestDTO, ProductEntity productEntity){
+        modelMapper.map(productRequestDTO, productEntity);
     }
 }

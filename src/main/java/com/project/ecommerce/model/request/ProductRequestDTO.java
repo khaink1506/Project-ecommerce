@@ -6,18 +6,14 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.io.Serial;
-import java.io.Serializable;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProductRequestDTO implements Serializable {
-    @Serial
-    private static final long serialVersionUID = -98463764L;
+public class ProductRequestDTO  {
 
      Long id;
 
@@ -36,9 +32,8 @@ public class ProductRequestDTO implements Serializable {
      @Min(value = 0, message = "Số lượng phải lớn hơn hoặc bằng 0")
      Integer currentQuantity;
 
-     String image;
-
      @NotNull(message = "Danh mục không được bỏ trống")
      Long categoryId;
 
+     MultipartFile image;
 }
