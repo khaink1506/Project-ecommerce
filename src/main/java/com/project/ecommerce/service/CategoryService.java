@@ -1,7 +1,7 @@
 package com.project.ecommerce.service;
 
-import com.project.ecommerce.model.dto.CategoryResponseDTO;
-import com.project.ecommerce.model.dto.ResponseDTO;
+import com.project.ecommerce.model.response.CategoryResponseDTO;
+import com.project.ecommerce.model.response.ResponseDTO;
 import com.project.ecommerce.model.request.CategoryRequestDTO;
 
 import java.util.List;

@@ -36,11 +36,10 @@ public class AdminEntity implements Serializable {
     @Column(name = "password")
     private String password;
 
-    @Lob
-    @Column(name = "image", columnDefinition = "MEDIUMBLOB")
+    @Column(name = "image")
     private String image;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "admins_roles",
             joinColumns = @JoinColumn(name = "admin_id"),

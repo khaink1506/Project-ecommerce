@@ -6,8 +6,6 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -27,7 +25,7 @@ public class ProductEntity  implements Serializable {
     @Column(name = "name", unique = true)
     private String name;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "cost_price")
@@ -39,8 +37,7 @@ public class ProductEntity  implements Serializable {
     @Column(name = "current_quantity")
     private int currentQuantity;
 
-    @Lob
-    @Column(columnDefinition = "MEDIUMBLOB")
+    @Column(name = "image")
     private String image;
 
     @ManyToOne

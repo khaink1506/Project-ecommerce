@@ -1,9 +1,10 @@
 package com.project.ecommerce.exception.handler;
 
 import com.project.ecommerce.exception.InvalidRequestException;
-import com.project.ecommerce.model.dto.ResponseDTO;
+import com.project.ecommerce.model.response.ResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler
+    @ExceptionHandler(InvalidRequestException.class)
     public ResponseEntity<ResponseDTO> handleInvalidRequestException(InvalidRequestException e){
         ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(e.getMessage());
@@ -20,4 +21,17 @@ public class GlobalExceptionHandler {
         responseDTO.setDetails(details);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDTO);
     }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ResponseDTO> handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setMessage("Dữ liệu không hợp lệ");
+        List<String> details = e.getBindingResult().getFieldErrors()
+                .stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .toList();
+        responseDTO.setDetails(details);
+        return ResponseEntity.badRequest().body(responseDTO);
+    }
+
 }

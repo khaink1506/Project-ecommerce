@@ -23,6 +23,7 @@ public class OrderDetailEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "quantity")
     private int quantity;
 
     @Column(name = "total_price")

@@ -1,7 +1,7 @@
 package com.project.ecommerce.converter;
 
 import com.project.ecommerce.entity.CategoryEntity;
-import com.project.ecommerce.model.dto.CategoryResponseDTO;
+import com.project.ecommerce.model.response.CategoryResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;

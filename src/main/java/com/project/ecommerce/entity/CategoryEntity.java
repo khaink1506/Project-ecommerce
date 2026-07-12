@@ -41,10 +41,4 @@ public class CategoryEntity  implements Serializable {
     @OneToMany(mappedBy = "category")
     private List<ProductEntity> products;
 
-    public CategoryEntity(String name, String description) {
-        this.name = name;
-        this.description = description;
-        this.isDeleted = false;
-        this.isActivated = true;
-    }
 }

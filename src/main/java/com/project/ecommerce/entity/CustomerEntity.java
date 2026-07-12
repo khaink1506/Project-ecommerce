@@ -47,8 +47,7 @@ public class CustomerEntity implements Serializable {
     @Column(name = "password")
     private String password;
 
-    @Lob
-    @Column(columnDefinition = "MEDIUMBLOB")
+    @Column(name = "image")
     private String image;
 
     @Column(name = "city")
