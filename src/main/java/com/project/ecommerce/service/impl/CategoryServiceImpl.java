@@ -52,15 +52,12 @@ public class CategoryServiceImpl implements CategoryService {
         if (categoryRequestDTO.getId() == null) {
             throw new InvalidRequestException("Có ID mới cập nhật danh mục");
         }
-        CategoryEntity category = categoryRepository.findById(categoryRequestDTO.getId())
+        CategoryEntity existingCategory = categoryRepository.findById(categoryRequestDTO.getId())
                 .orElseThrow(() -> new InvalidRequestException("ID không tồn tại"));
-        category.setName(categoryRequestDTO.getName());
-        category.setDescription(categoryRequestDTO.getDescription());
-        category.setDeleted(false);
-        category.setActivated(true);
-        categoryRepository.save(category);
+        existingCategory.setName(categoryRequestDTO.getName());
+        existingCategory.setDescription(categoryRequestDTO.getDescription());
         return ResponseDTO.builder()
-                .data(category)
+                .data(existingCategory)
                 .message("Sửa dữ liệu danh mục thành công")
                 .build();
     }

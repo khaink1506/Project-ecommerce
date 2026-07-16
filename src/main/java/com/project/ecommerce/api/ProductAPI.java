@@ -1,4 +1,4 @@
-package com.project.ecommerce.api.product;
+package com.project.ecommerce.api;
 
 import com.project.ecommerce.model.response.ProductResponseDTO;
 import com.project.ecommerce.model.response.ResponseDTO;
@@ -6,7 +6,6 @@ import com.project.ecommerce.model.request.ProductRequestDTO;
 import com.project.ecommerce.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.Repository;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

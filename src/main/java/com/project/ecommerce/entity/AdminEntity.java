@@ -1,10 +1,7 @@
 package com.project.ecommerce.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -16,6 +13,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @Entity
 @Table(name = "admins")
+@Builder
 public class AdminEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = -83843845L;

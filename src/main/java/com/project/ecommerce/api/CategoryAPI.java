@@ -1,4 +1,4 @@
-package com.project.ecommerce.api.category;
+package com.project.ecommerce.api;
 
 import com.project.ecommerce.model.response.ResponseDTO;
 import com.project.ecommerce.model.request.CategoryRequestDTO;
