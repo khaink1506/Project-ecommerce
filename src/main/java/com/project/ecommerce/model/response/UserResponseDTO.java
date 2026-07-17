@@ -11,7 +11,5 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponseDTO {
-
     private String userName;
-    private String password;
 }
