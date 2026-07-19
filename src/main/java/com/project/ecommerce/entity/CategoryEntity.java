@@ -6,39 +6,59 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+
 @AllArgsConstructor
 @NoArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Builder
 @Entity
-@Table(name = "categories",
-        uniqueConstraints = @UniqueConstraint(columnNames = "name"))
+@Table(name = "categories", indexes = {
 
-public class CategoryEntity  implements Serializable {
-    @Serial
-    private static final long serialVersionUID = -1764746L;
+                @Index(
+                        name = "idx_category_name",
+                        columnList = "name"),
+                @Index(
+                        name = "idx_category_slug",
+                        columnList = "slug")
+        }
+)
+@Getter
+@Setter
+public class CategoryEntity extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false, length = 150)
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "slug", nullable = false, unique = true, length = 200)
+    private String slug;
+
+    @Column(name = "image", length = 500)
+    private String image;
+
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "is_deleted")
-    private boolean isDeleted;
+    @Column(name = "sort_order", nullable = false)
+    private Integer sortOrder = 0;
 
-    @Column(name = "is_activated")
-    private boolean isActivated;
+    @Column(name = "active", nullable = false)
+    private Boolean active = true;
 
-    @OneToMany(mappedBy = "category")
-    private List<ProductEntity> products;
+    // Category cha
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private CategoryEntity parent;
+
+     // Danh sách category con
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+    private List<CategoryEntity> children = new ArrayList<>();
+
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    private List<ProductEntity> products = new ArrayList<>();
+
+
+
+
 
 }

@@ -1,28 +1,30 @@
 package com.project.ecommerce.entity;
 
+import com.project.ecommerce.enums.RoleCode;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
 
-import java.io.Serial;
-import java.io.Serializable;
+import java.util.List;
 
+@Entity
+@Table(name = "roles", indexes = {@Index(name = "idx_role_code", columnList = "code")})
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Entity
-@Table(name = "roles")
-public class RoleEntity implements Serializable {
-    @Serial
-    private static final long serialVersionUID = -84243949359L;
+@Builder
+public class RoleEntity extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "code", nullable = false, length = 100)
+    private RoleCode code;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, length = 100)
     private String name;
+
+    // Một role có nhiều user
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    private List<UserEntity> users;
+
 
 }

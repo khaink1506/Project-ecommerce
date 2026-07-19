@@ -1,40 +1,56 @@
 package com.project.ecommerce.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.math.BigDecimal;
 
+
+@Entity
+@Table(name = "cart_items", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_cart_product", columnNames = {"cart_id", "product_id"})},
+        indexes = {
+            @Index(
+                    name = "idx_cart_item_cart",
+                    columnList = "cart_id"),
+
+            @Index(
+                    name = "idx_cart_item_product",
+                    columnList = "product_id")})
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Entity
-@Table(name = "cart_item")
+public class CartItemEntity extends BaseEntity {
 
-public class CartItemEntity implements Serializable {
-    @Serial
-    private static final long serialVersionUID = -8325734587L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    /**
+     * Cart chứa item này
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id", nullable = false)
+    private CartEntity cart;
 
-    private int quantity;
 
-    @Column(name = "total_price")
-    private double totalPrice;
-
-    @ManyToOne
-    @JoinColumn(name = "shopping_cart_id", unique = true)
-    private ShoppingCartEntity cart;
-
-    @OneToOne
-    @JoinColumn(name = "product_id")
+    /**
+     * Product trong giỏ hàng
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
     private ProductEntity product;
-}
 
+
+    /**
+     * Số lượng mua
+     */
+    @Column(nullable = false)
+    private Integer quantity = 1;
+
+
+    /**
+     * Giá tại thời điểm thêm vào cart
+     */
+    @Column(name = "unit_price", nullable = false, precision = 18, scale = 2)
+    private BigDecimal unitPrice;
+
+
+}

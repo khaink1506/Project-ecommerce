@@ -1,14 +1,9 @@
 package com.project.ecommerce.service;
 
-import com.project.ecommerce.entity.UserEntity;
 import com.project.ecommerce.enums.TokenType;
 import org.springframework.security.oauth2.jwt.Jwt;
 
-public interface JwtService {
-
-    String generateAccessToken(UserEntity adminEntity);
-
-    String generateRefreshToken(UserEntity adminEntity);
+public interface JwtVerifier {
 
     Jwt verifyToken(String token, TokenType expectedType);
 }

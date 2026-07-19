@@ -1,43 +1,54 @@
 package com.project.ecommerce.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serial;
-import java.io.Serializable;
+import java.math.BigDecimal;
 
+@Entity
+@Table(name = "order_details", indexes = {
+        @Index(name = "idx_order_detail_order", columnList = "order_id"),
+        @Index(name = "idx_order_detail_product", columnList = "product_id")})
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "order_detail")
-public class OrderDetailEntity implements Serializable {
-    @Serial
-    private static final long serialVersionUID = -882434L;
+public class OrderDetailEntity extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    /**
+     * Thuộc order nào
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", nullable = false)
+    private OrderEntity order;
 
-    @Column(name = "quantity")
-    private int quantity;
-
-    @Column(name = "total_price")
-    private double totalPrice;
-
-    @Column(name = "unit_price")
-    private double unitPrice;
-
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private OrdersEntity order;
-
-    @OneToOne
-    @JoinColumn(name = "product_id", unique = true)
+    /**
+     * Product gốc
+     * <p>
+     * Chỉ reference để thống kê
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
     private ProductEntity product;
+
+    @Column(name = "product_name", nullable = false, length = 255)
+    private String productName;
+
+    @Column(name = "product_sku", nullable = false, length = 100)
+    private String productSku;
+
+    @Column(name = "product_thumbnail", length = 500)
+    private String productThumbnail;
+
+    @Column(nullable = false)
+    private Integer quantity;
+
+    @Column(name = "unit_price", nullable = false, precision = 18, scale = 2)
+    private BigDecimal unitPrice;
+
+    @Column(name = "discount_amount", precision = 18, scale = 2)
+    private BigDecimal discountAmount = BigDecimal.ZERO;
+
+    @Column(nullable = false, precision = 18, scale = 2)
+    private BigDecimal subtotal;
 
 }

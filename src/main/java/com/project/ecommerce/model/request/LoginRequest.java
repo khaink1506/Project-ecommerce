@@ -13,7 +13,7 @@ import lombok.Setter;
 public class LoginRequest {
 
     @NotBlank(message = "Username không được bỏ trống")
-    private String userName;
+    private String username;
 
     @NotBlank(message = "Password không được bỏ trống")
     private String password;
