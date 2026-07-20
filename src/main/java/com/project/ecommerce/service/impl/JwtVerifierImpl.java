@@ -35,6 +35,7 @@ public class JwtVerifierImpl implements JwtVerifier {
         verifyAlgorithm(signedJWT);
         verifySignature(signedJWT);
         JWTClaimsSet claims = extractClaims(signedJWT);
+        verifyIssuedAt(claims);
         verifyExpiration(claims);
         verifyIssuer(claims);
         verifyTokenType(claims, expectedType);
@@ -42,11 +43,6 @@ public class JwtVerifierImpl implements JwtVerifier {
     }
 
     private Jwt convertToSpringJwt(SignedJWT signedJWT, JWTClaimsSet claims) {
-        Date issuedAt = claims.getIssueTime();
-        Date expiredAt = claims.getExpirationTime();
-        if (issuedAt == null || expiredAt == null) {
-            throw new InvalidJwtException(ErrorCode.INVALID_TOKEN);
-        }
         return new Jwt(signedJWT.serialize(),
                 claims.getIssueTime().toInstant(),
                 claims.getExpirationTime().toInstant(),
@@ -55,6 +51,13 @@ public class JwtVerifierImpl implements JwtVerifier {
     }
 
     // verify JWT
+
+    private void verifyIssuedAt(JWTClaimsSet jwtClaimsSet){
+        Date issuedAt = jwtClaimsSet.getIssueTime();
+        if(issuedAt == null || issuedAt.after(new Date())){
+            throw new InvalidJwtException(ErrorCode.INVALID_TOKEN);
+        }
+    }
     private SignedJWT parseSignedJwt(String token) {
         try {
             return SignedJWT.parse(token);
@@ -68,7 +71,6 @@ public class JwtVerifierImpl implements JwtVerifier {
             if (!signedJWT.verify(verifier)) {
                 throw new InvalidJwtException(ErrorCode.INVALID_TOKEN_SIGNATURE);
             }
-
         } catch (JOSEException e) {
             throw new IllegalStateException("Cannot verify JWT signature", e);
         }
@@ -82,7 +84,7 @@ public class JwtVerifierImpl implements JwtVerifier {
     }
     private void verifyExpiration(JWTClaimsSet claims) {
         Date expiration = claims.getExpirationTime();
-        if (expiration == null || expiration.before(new Date())) {
+        if (expiration == null || !expiration.after(new Date())) {
             throw new InvalidJwtException(ErrorCode.TOKEN_EXPIRED);
         }
     }
@@ -94,6 +96,9 @@ public class JwtVerifierImpl implements JwtVerifier {
     private void verifyTokenType(JWTClaimsSet claims, TokenType expectedType) {
         try {
             String actualType = claims.getStringClaim(JwtConstants.CLAIM_TYPE);
+            if(actualType == null || actualType.isBlank()){
+                throw new InvalidJwtException(ErrorCode.INVALID_TOKEN);
+            }
             if (!expectedType.name().equalsIgnoreCase(actualType)) {
                 throw new InvalidJwtException(ErrorCode.INVALID_TOKEN_TYPE);
             }

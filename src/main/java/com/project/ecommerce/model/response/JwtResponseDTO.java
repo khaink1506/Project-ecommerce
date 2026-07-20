@@ -14,7 +14,7 @@ public class JwtResponseDTO {
     private int status;
     private String code;
     private String message;
-    private Object data;
-    private Map<String, String> errors;
-    private LocalDateTime timestamp;
+//    private Object data;
+//    private Map<String, String> errors;
+//    private LocalDateTime timestamp;
 }
