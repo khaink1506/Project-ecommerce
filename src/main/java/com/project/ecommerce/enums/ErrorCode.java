@@ -9,6 +9,19 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorCode {
 
+    UNAUTHORIZED(
+            HttpStatus.UNAUTHORIZED,
+            "UNAUTHORIZED",
+            "Vui lòng đăng nhập để truy cập hệ thống."
+    ),
+
+    FORBIDDEN(
+            HttpStatus.FORBIDDEN,
+            "FORBIDDEN",
+            "Bạn không có quyền truy cập tài nguyên này."
+    ),
+
+
     //Validate
 
     USERNAME_ALREADY_EXISTS(
